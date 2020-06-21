@@ -25,6 +25,6 @@ Route::middleware(['auth'])->group(function (){
 
     Route::get('/admin/scans', 'ScanController@index')->name('admin.scans');
     Route::get('/admin/devices', 'DeviceController@index')->name('admin.devices');
-    Route::post('/admin/devices/add', 'DeviceController@index')->name('devices.store');
+    Route::post('/admin/devices/add', 'DeviceController@store')->name('devices.store');
 });
 

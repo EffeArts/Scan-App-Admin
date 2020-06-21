@@ -5,6 +5,15 @@
 
 @section('content_header')
     <h1>All devices</h1>
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+        @if(Session::has($msg))
+            <div class="alert alert-{{ $msg }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4> Alert!</h4>
+                {{ Session::get($msg) }}
+            </div>
+        @endif
+    @endforeach
 @stop
 
 @section('content')
@@ -16,7 +25,7 @@
                 <h3 class="card-title">Add a new Device</h3>
             </div>
             <div class="card-body">
-                <form method="POST" enctype="multipart/form-data" action="{{ route('devices.store') }}">
+                <form method="POST" action="{{ route('devices.store') }}">
                     @csrf
                     {{ csrf_field() }}
                     <div class="row">
