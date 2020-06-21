@@ -253,7 +253,7 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'users management',
+            'text' => 'Users Management',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-users',
         ],
