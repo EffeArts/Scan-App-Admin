@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-use Illuminate\Support\Facades\Auth;
-use App\User;
-
-class ScanController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,26 +16,13 @@ class ScanController extends Controller
      */
     public function index()
     {
-        $user_role = Auth::user()->role_id;
+        $users = DB::table('users')
+            ->join('roles', 'users.role_id', '=', 'roles.id')
+            ->join('devices', 'users.device_id', '=', 'devices.id')
+            ->select('users.*', 'devices.device_name', 'roles.name as role_name')
+            ->paginate(10);
 
-        if($user_role == 1){
-            $scans = DB::table('scans')
-            ->join('devices', 'scans.devices_id', '=', 'devices.id')
-            ->select('scans.*', 'devices.device_name')
-            ->paginate(5);
-        }
-        else{
-            $assoc_device = Auth::user()->device_id;
-
-            $scans = DB::table('scans')
-            ->join('devices', 'scans.devices_id', '=', 'devices.id')
-            ->select('scans.*', 'devices.device_name')
-            ->where('devices_id', $assoc_device)
-            ->paginate(5);
-        }
-        
-
-        return view('scans.index', ['scans' => $scans]);
+        return view('users.index', ['users' => $users]);
     }
 
     /**
@@ -47,7 +32,11 @@ class ScanController extends Controller
      */
     public function create()
     {
-        //
+        $roles = DB::table('roles')->get();
+        $devices = DB::table('devices')->get();
+        return view('users.register')
+            ->with('devices', $devices)
+            ->with('roles', $roles);
     }
 
     /**
@@ -58,7 +47,30 @@ class ScanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request['device_id']){
+            $device_id = $request['device_id'];
+        }
+        else{
+            $device_id = 0;
+        }
+        
+        try{
+            DB::table('users')->insertGetId(
+                [
+                    'name' => $request['name'], 
+                    'email' => $request['email'],
+                    'device_id' => $device_id,
+                    'role_id' => $request['role_id'],
+                    'password' => Hash::make($request['password'])
+                ]
+            );
+        } catch(\Illuminate\Database\QueryException  $ex){
+            return redirect()->back()->withErrors([$ex->getMessage()]);
+        }
+        
+        return redirect()->back()
+            ->with("success", "Admin successfully registered.");
+
     }
 
     /**

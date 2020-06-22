@@ -24,7 +24,15 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/home', 'ScanController@index')->name('home');
 
     Route::get('/admin/scans', 'ScanController@index')->name('admin.scans');
-    Route::get('/admin/devices', 'DeviceController@index')->name('admin.devices');
-    Route::post('/admin/devices/add', 'DeviceController@store')->name('devices.store');
+
+    Route::middleware('isSuperAdmin')->group(function () {
+        Route::get('/admin/users', 'UserController@index')->name('admin.users');
+        Route::get('/admin/users/register', 'UserController@create')->name('users.register');
+        Route::post('/admin/users/store', 'UserController@store')->name('users.store');
+        
+        Route::get('/admin/devices', 'DeviceController@index')->name('admin.devices');
+        Route::post('/admin/devices/add', 'DeviceController@store')->name('devices.store');
+    });
+    
 });
 

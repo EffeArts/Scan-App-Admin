@@ -241,21 +241,23 @@ return [
             'url'  => 'admin/scans',
             'icon' => 'fas fa-fw fa-check-circle',
         ],
+        ['header' => 'APPLICATION SETTINGS'],
+        
         [
-            'text' => 'Manage Devices',
+            'text' => 'Devices Management',
             'url'  => 'admin/devices',
             'icon' => 'fas fa-fw fa-mobile',
         ],
-        ['header' => 'APPLICATION SETTINGS'],
-        [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
+        
         [
             'text' => 'Users Management',
-            'url'  => 'admin/settings',
+            'url'  => 'admin/users',
             'icon' => 'fas fa-fw fa-users',
+        ],
+        [
+            'text' => 'Register an Admin',
+            'url'  => 'admin/users/register',
+            'icon' => 'fas fa-fw fa-user-plus',
         ],
         
     ],

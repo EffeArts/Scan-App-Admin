@@ -19,7 +19,38 @@
                     data-accordion="false"
                 @endif>
                 {{-- Configured sidebar links --}}
-                @each('adminlte::partials.sidebar.menu-item', $adminlte->menu('sidebar'), 'item')
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                      <a href="scans" class="nav-link">
+                        <i class="fas fa-fw fa-check-circle"></i>
+                        <p>Manage Scans</p>
+                      </a>
+                    </li>
+
+                    @if(Auth::user()->role_id == 1){
+                        <li class="nav-header">Application Settings</li>
+                        <li class="nav-item">
+                          <a href="devices" class="nav-link">
+                            <i class="nav-icon fas fa-fw fa-mobile"></i>
+                            <p class="text">Devices Management</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="users" class="nav-link">
+                            <i class="nav-icon fas fa-fw fa-users"></i>
+                            <p>Users Management</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="users/register" class="nav-link">
+                            <i class="nav-icon fas fa-fw fa-user-plus"></i>
+                            <p>Register an Admin</p>
+                          </a>
+                        </li>
+                    @endif
+                    
+                </ul>
+                
             </ul>
         </nav>
     </div>
